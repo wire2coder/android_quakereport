@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     /** Adapter for the list of earthquakes */
     private EarthquakeAdapter mAdapter;
 
+    // a TextView
+    TextView mEmptyStateTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +63,16 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         // Find a reference to the ListView in the layout xml file
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
+        // Find a reference to 'emptyState' TextView
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+
         // Create a new adapter
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
 
         // Set the adapter on the ListView
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(mAdapter);
+        earthquakeListView.setEmptyView(mEmptyStateTextView);
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
@@ -113,6 +121,14 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public void onLoadFinished( Loader<List<Earthquake> > loader, List<Earthquake> earthquakes) {
+
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
+        // Set empty state text to display "No earthquakes found."
+        mEmptyStateTextView.setText(R.string.no_earthquakes);
+
         // Clear the adapter of previous earthquake data
         Log.e(LOG_TAG, "LOG_TAG: " +  "onLoadFinished");
         mAdapter.clear();
@@ -120,7 +136,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (earthquakes != null && !earthquakes.isEmpty()) {
-            mAdapter.addAll(earthquakes);
+//            mAdapter.addAll(earthquakes);
         }
     }
 
