@@ -27,7 +27,7 @@ public class EarthquakeLoader extends AsyncTaskLoader< List<Earthquake> > {
     // because of AsyncTaskLoader
     @Override
     protected void onStartLoading() {
-        Log.e(LOG_TAG, "LOG_TAG: " + "onStartLoading" );
+//        Log.e(LOG_TAG, "LOG_TAG: " + "onStartLoading" );
         forceLoad();
     }
 
@@ -39,9 +39,9 @@ public class EarthquakeLoader extends AsyncTaskLoader< List<Earthquake> > {
         }
 
         // Perform the network request, parse the response, and extract a list of earthquakes.
-        Log.e(LOG_TAG, "LOG_TAG: " + "loadInBackground -> fetching data" );
+//        Log.e(LOG_TAG, "LOG_TAG: " + "loadInBackground -> fetching data" );
         List<Earthquake> earthquakes = QueryUtils.fetchEarthquakeData(mUrl);
-        Log.e(LOG_TAG, "LOG_TAG: " + "::: earthquakes DATA :::" + earthquakes.toString() );
+//        Log.e(LOG_TAG, "LOG_TAG: " + "::: earthquakes DATA :::" + earthquakes.toString() );
         return earthquakes;
     }
 
